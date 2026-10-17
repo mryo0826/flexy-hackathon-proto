@@ -1,26 +1,30 @@
 {% with at = 4 %}{% include "_progress.html" %}{% endwith %}
-<div class="ending">
-  <div class="route route-{{ route.key }}">
-    <p class="route-kicker">1日目を終えて ─ この会社とあなたの相性</p>
-    <p class="route-label">{{ route.title }}</p>
-    <p class="route-sub">{{ route.note }}</p>
+{# 左に結末とまとめ、右に3つの選択（1280×720 で1画面に収める。notes.md の e2） #}
+<div class="ending two">
+  <div class="col-main">
+    <div class="route route-{{ route.key }}">
+      <p class="route-kicker">1日目を終えて ─ この会社とあなたの相性</p>
+      <p class="route-label">{{ route.title }}</p>
+      <p class="route-sub">{{ route.note }}</p>
+    </div>
+    <h3>1日目の終わり <small>Gemini・{{ ms }}</small></h3>
+    <p>{{ end.text }}</p>
+    <h3>6ヶ月後のあなた</h3>
+    <p>{{ end.six_months }}</p>
+    <h3>まとめ</h3>
+    <p>{{ end.summary }}</p>
   </div>
-  <h2>1日目の終わり <small>Gemini・{{ ms }}</small></h2>
-  <p>{{ end.text }}</p>
-  <h3>6ヶ月後のあなた</h3>
-  <p>{{ end.six_months }}</p>
-  <h3>まとめ</h3>
-  <p>{{ end.summary }}</p>
-  <h3>あなたの3つの選択</h3>
-  <p class="fit-note">選ぶ度に、AI（Jev）が2つの物差しで 0〜100 で測りました。50 未満は赤で出ます。</p>
-  <ol class="history">
-    {% for h in history %}
-    <li>
-      <p class="scene-head"><span class="pill">{{ h.scene.time }}</span></p>
-      <blockquote class="your-action">{{ h.action }}</blockquote>
-      {% with fit = h.fit %}{% include "_fit.html" %}{% endwith %}
-    </li>
-    {% endfor %}
-  </ol>
+  <div class="col-side">
+    <h3>あなたの3つの選択</h3>
+    <p class="fit-note">AI（Jev）が 0〜100 で測った値（50 未満は赤）</p>
+    <ol class="history">
+      {% for h in history %}
+      <li>
+        <p class="action"><span class="pill">{{ h.scene.time }}</span> {{ h.action }}</p>
+        {% with fit = h.fit %}{% include "_fit_mini.html" %}{% endwith %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
 </div>
 <p class="again"><a class="cta" href="/start">別の会社で試す</a></p>

@@ -1,0 +1,13 @@
+{# 振り返り用の小さな2本の棒（説明は選んだ後の画面で見せているので省く）。fit = {"company_fit", "self_fit"} #}
+<ul class="fit-mini">
+  <li class="{{ 'bad' if fit.company_fit < 50 }}">
+    <span class="label">会社の期待</span>
+    <span class="bar"><span style="width: {{ fit.company_fit }}%"></span></span>
+    <span class="value">{{ fit.company_fit }}</span>
+  </li>
+  <li class="{{ 'bad' if fit.self_fit < 50 }}">
+    <span class="label">自分の希望</span>
+    <span class="bar"><span style="width: {{ fit.self_fit }}%"></span></span>
+    <span class="value">{{ fit.self_fit }}</span>
+  </li>
+</ul>

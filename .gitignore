@@ -1,3 +1,7 @@
 .venv/
 __pycache__/
 cache-backup-*/
+video/*
+!video/intro.mp4
+!video/closing.mp4
+!video/demo.mp4

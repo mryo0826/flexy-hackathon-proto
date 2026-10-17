@@ -768,3 +768,110 @@ button:disabled {
   font-size: 30px;
   letter-spacing: 0.02em;
 }
+
+/* --- 体験のページを2列にして、1280×720 で1画面に収める（notes.md の e2） --- */
+body.play main,
+body.play .topbar {
+  max-width: 1200px;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.scene.two .actions {
+  margin-top: 0;
+}
+
+.scene.two .actions p.tag {
+  margin-top: 0;
+}
+
+.scene.two .actions .option {
+  margin: 10px 0;
+  padding: 10px 14px;
+  font-size: 18px;
+}
+
+.ending.two {
+  grid-template-columns: 1.15fr 1fr;
+}
+
+.ending.two h3 {
+  margin: 12px 0 2px;
+  font-size: 20px;
+}
+
+.ending.two p {
+  margin: 0 0 4px;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.ending.two .route {
+  padding: 10px 16px;
+  margin-bottom: 4px;
+}
+
+.ending.two p.route-label {
+  font-size: 26px;
+}
+
+.ending.two p.route-sub {
+  font-size: 16px;
+}
+
+.ending.two .col-side {
+  background: #f8f9fc;
+  border-radius: 12px;
+  padding: 4px 16px 8px;
+}
+
+.ending.two .history > li {
+  padding: 8px 0 4px;
+}
+
+.ending.two .history p.action {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.ending.two .history .pill {
+  font-size: 14px;
+  padding: 0 10px;
+  margin-right: 4px;
+}
+
+.fit-mini {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fit-mini li {
+  display: grid;
+  grid-template-columns: 6em 1fr 2.5em;
+  gap: 10px;
+  align-items: center;
+  font-size: 15px;
+}
+
+.fit-mini .bar {
+  height: 12px;
+}
+
+.fit-mini .value {
+  font-weight: 700;
+}
+
+.fit-mini li.bad .bar span {
+  background: var(--bad);
+}
+
+.fit-mini li.bad .value {
+  color: var(--bad-text);
+}

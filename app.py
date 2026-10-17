@@ -100,7 +100,12 @@ def slides():
 
 @app.get("/start")
 def start():
-    return render_template("start.html", companies=COMPANIES, company=SAMPLE_COMPANY, seeker=SAMPLE_SEEKER)
+    """?c=2 で3社目（ハヤテラボ）を選んだ状態で開く（デモ用）。"""
+    i = request.args.get("c", default=0, type=int)
+    i = i if 0 <= i < len(COMPANIES) else 0
+    return render_template(
+        "start.html", companies=COMPANIES, selected=i, company=COMPANIES[i]["text"], seeker=SAMPLE_SEEKER
+    )
 
 
 @app.post("/play")

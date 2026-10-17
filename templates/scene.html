@@ -1,8 +1,11 @@
 {% with at = step %}{% include "_progress.html" %}{% endwith %}
-<div class="scene">
-  <p class="scene-head"><span class="pill">{{ scene.time }}</span><small>Gemini・{{ ms }}</small></p>
-  <h2>{{ scene.title }}</h2>
-  <p class="scene-text">{{ scene.text }}</p>
+{# 左に場面、右に分かれ道と3択（1280×720 で選択肢まで1画面に収める。notes.md の e2） #}
+<div class="scene two">
+  <div class="col-story">
+    <p class="scene-head"><span class="pill">{{ scene.time }}</span><small>Gemini・{{ ms }}</small></p>
+    <h2>{{ scene.title }}</h2>
+    <p class="scene-text">{{ scene.text }}</p>
+  </div>
   <div class="actions">
     <p class="tag">分かれ道</p>
     <p class="question">{{ scene.question }}</p>
