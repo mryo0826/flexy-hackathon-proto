@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+  {# 場面毎に、この中だけを入れ替える #}
+  <div id="stage">{% include stage %}</div>
+</main>
+{% endblock %}

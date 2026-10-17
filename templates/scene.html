@@ -1,9 +1,10 @@
+{% with at = step %}{% include "_progress.html" %}{% endwith %}
 <div class="scene">
-  <h2><span class="step">{{ step }}/{{ total }}</span> {{ scene.time }} {{ scene.title }} <small>Gemini・{{ ms }}</small></h2>
+  <h2>{{ scene.time }} {{ scene.title }} <small>Gemini・{{ ms }}</small></h2>
   <p>{{ scene.text }}</p>
   <div class="actions">
     <p class="question">{{ scene.question }}</p>
-    <form hx-post="/choose" hx-target="closest .actions" hx-swap="outerHTML" hx-indicator="this">
+    <form hx-post="/choose" hx-target="#stage" hx-swap="innerHTML show:window:top" hx-disabled-elt="button">
       {% include "_carry.html" %}
       <input type="hidden" name="scene" value="{{ scene_json }}">
       {% for o in scene.options %}

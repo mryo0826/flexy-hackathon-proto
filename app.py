@@ -1,7 +1,8 @@
 """入社前シミュレーター。uv run python app.py で http://127.0.0.1:5000 に立つ。
 
-流れ: POST /judge（Jev で会社を判定）→ POST /scene（Gemini で場面と3択）
-→ POST /choose（Jev で選んだ行動を判定）→ POST /scene …… 3場面の後は /scene が締めくくりを返す。
+ページ: GET /（トップ）→ GET /start（会社を選ぶ）→ POST /play（Jev で会社を判定し、体験のページ）。
+体験のページの中は #stage だけを入れ替える: POST /scene（Gemini で場面と3択）
+→ POST /choose（Jev で選んだ行動を判定）→ POST /scene …… 3場面の後は /scene が振り返りを返す。
 状態（入力・判定・ここまでの履歴）は、画面の hidden の欄で持ち回る。
 """
 
@@ -81,23 +82,34 @@ def _carry(state):
     }
 
 
+@app.context_processor
+def _mode():
+    return {"mode": cache.mode()}
+
+
 @app.get("/")
-def index():
-    return render_template(
-        "index.html", companies=COMPANIES, company=SAMPLE_COMPANY, seeker=SAMPLE_SEEKER, mode=cache.mode()
-    )
+def landing():
+    return render_template("landing.html")
 
 
-@app.post("/judge")
-def judge():
+@app.get("/start")
+def start():
+    return render_template("start.html", companies=COMPANIES, company=SAMPLE_COMPANY, seeker=SAMPLE_SEEKER)
+
+
+@app.post("/play")
+def play():
+    """会社を判定し、体験のページを返す。この後は #stage の中だけを入れ替える。"""
     st = _state()
     t0 = time.perf_counter()
     try:
         st["answers"] = sim.judge(st["company"], st["seeker"])
     except Exception as e:  # デモ中は画面にエラーを出して続ける
-        return render_template("error.html", where="Jev", message=str(e))
+        return render_template("play.html", stage="error.html", where="Jev", message=str(e))
     ms = _took(t0)
-    return render_template("judge.html", judgments=sim.judgments_view(st["answers"]), ms=ms, **_carry(st))
+    return render_template(
+        "play.html", stage="judge.html", judgments=sim.judgments_view(st["answers"]), ms=ms, **_carry(st)
+    )
 
 
 @app.post("/scene")
@@ -116,10 +128,9 @@ def scene():
     if done:
         fits = [h["fit"] for h in st["history"]]
         avg = {k: round(sum(f[k] for f in fits) / len(fits)) for k in ("company_fit", "self_fit")}
-        return render_template("ending.html", end=result, avg=avg, ms=ms)
+        return render_template("ending.html", end=result, avg=avg, history=st["history"], ms=ms)
     return render_template(
-        "scene.html", scene=result, scene_json=sim.dumps(result), step=len(st["history"]) + 1,
-        total=len(sim.SLOTS), ms=ms, **_carry(st),
+        "scene.html", scene=result, scene_json=sim.dumps(result), step=len(st["history"]) + 1, ms=ms, **_carry(st)
     )
 
 
@@ -136,7 +147,8 @@ def choose():
     ms = _took(t0)
     st["history"].append({"scene": current, "action": action, "fit": fit})
     return render_template(
-        "choose.html", action=action, fit=fit, ms=ms, last=len(st["history"]) >= len(sim.SLOTS), **_carry(st)
+        "choose.html", scene=current, action=action, fit=fit, ms=ms, step=len(st["history"]),
+        last=len(st["history"]) >= len(sim.SLOTS), **_carry(st),
     )
 
 

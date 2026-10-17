@@ -1,0 +1,5 @@
+<ol class="progress">
+  {% for s in ["判定", "朝", "午後", "夕方", "振り返り"] %}
+  <li class="{{ 'done' if loop.index0 < at }}{{ ' now' if loop.index0 == at }}">{{ s }}</li>
+  {% endfor %}
+</ol>

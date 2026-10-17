@@ -14,7 +14,8 @@
 body {
   font-family: system-ui, "Yu Gothic UI", sans-serif;
   margin: 0;
-  background: linear-gradient(to bottom, var(--sky), var(--cream));
+  background: linear-gradient(to bottom, var(--sky), var(--cream)) fixed;
+  min-height: 100vh; /* 中身が短いページでも、グラデーションを画面の下まで */
   color: var(--ink);
   font-size: 20px;
   line-height: 1.6;
@@ -168,7 +169,7 @@ h3 {
 
 .judgments li {
   display: grid;
-  grid-template-columns: 15em 1fr 6em;
+  grid-template-columns: 14em 1fr 14em; /* 一番長いラベルと、雰囲気の値（「速さと成果を強く求める雰囲気」）が折れない幅 */
   gap: 16px;
   align-items: center;
   margin: 12px 0;
@@ -316,6 +317,113 @@ h3 {
 .presets button.on {
   border: 2px solid var(--ink);
   background: var(--sky);
+}
+
+/* --- ページ毎の遷移（notes.md の r1） --- */
+body.landing {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+body.landing .hero {
+  max-width: 1200px;
+  margin: 24px auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  max-width: 952px;
+  margin: 0 auto;
+  padding: 16px 24px 0;
+}
+
+.topbar .brand {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  border: none;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.cta:hover {
+  background: #2c3852;
+  color: #fff;
+}
+
+.cta:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.progress {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+.progress li {
+  flex: 1;
+  text-align: center;
+  padding: 6px 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  color: #8a93a8;
+  font-size: 18px;
+}
+
+.progress li.done {
+  background: var(--lavender);
+  color: var(--ink);
+}
+
+.progress li.now {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+}
+
+.go {
+  margin-top: 8px;
+}
+
+.history {
+  list-style: none;
+  padding: 0;
+}
+
+.history > li {
+  border-top: 1px solid #e3e7ef;
+  padding: 8px 0;
+}
+
+.history .time {
+  display: inline-block;
+  min-width: 6em;
+  color: #6b7590;
+}
+
+.again {
+  text-align: center;
 }
 
 .error pre {

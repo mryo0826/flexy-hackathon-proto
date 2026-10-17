@@ -1,0 +1,6 @@
+{# 次の場面（または振り返り）へ進むボタン。押すと #stage を入れ替える #}
+<form hx-post="/scene" hx-target="#stage" hx-swap="innerHTML show:window:top" hx-disabled-elt="button" class="go">
+  {% include "_carry.html" %}
+  <button type="submit" class="cta">{{ label }}</button>
+  <span class="htmx-indicator">{{ waiting }}</span>
+</form>

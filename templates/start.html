@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+  <h2>どの会社の1日目を体験しますか？</h2>
+  <form method="post" action="/play">
+    <div class="presets">
+      {% for c in companies %}
+      <button type="button" class="{{ 'on' if loop.first }}" data-text="{{ c.text }}">{{ c.name }}<small>{{ c.hint }}</small></button>
+      {% endfor %}
+    </div>
+    <label>会社（架空）
+      <textarea name="company" rows="4">{{ company }}</textarea>
+    </label>
+    <label>あなたの希望
+      <textarea name="seeker" rows="3">{{ seeker }}</textarea>
+    </label>
+    <button type="submit" class="cta">この会社で1日目を体験する</button>
+  </form>
+</main>
+<script>
+  // 会社のボタンで、会社の欄を差し替える
+  document.querySelectorAll(".presets button").forEach((b) => {
+    b.addEventListener("click", () => {
+      document.querySelector("textarea[name=company]").value = b.dataset.text;
+      document.querySelectorAll(".presets button").forEach((x) => x.classList.toggle("on", x === b));
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body_class %}landing{% endblock %}
+{% block topbar %}{% endblock %}
+{% block content %}
+<header class="hero">
+  <div class="hero-text">
+    <p class="brand">入社前シミュレーター{% if mode == "cache" %} <small>キャッシュモード</small>{% endif %}</p>
+    <h1>応募する前に、<br>入社1日目を。</h1>
+    <p class="lead">AI が、その会社でのあなたの1日をシミュレーションします</p>
+    <a class="cta" href="/start">体験をはじめる</a>
+  </div>
+</header>
+{% endblock %}

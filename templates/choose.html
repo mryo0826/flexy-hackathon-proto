@@ -1,4 +1,7 @@
-<div class="chosen">
+{% with at = step %}{% include "_progress.html" %}{% endwith %}
+<div class="scene chosen">
+  <h2>{{ scene.time }} {{ scene.title }}</h2>
+  <p class="question">{{ scene.question }}</p>
   <p class="action">あなたの選択: {{ action }}</p>
   <ul class="fit">
     <li class="{{ 'bad' if fit.company_fit < 50 }}">
@@ -14,4 +17,8 @@
   </ul>
   <small>Jev・{{ ms }}</small>
 </div>
-{% with waiting = "1日目を振り返っています…" if last else "次の場面へ…" %}{% include "_next.html" %}{% endwith %}
+{% if last %}
+{% with label = "1日目を振り返る", waiting = "1日目を振り返っています…" %}{% include "_go.html" %}{% endwith %}
+{% else %}
+{% with label = "次の場面へ", waiting = "次の場面を書いています…" %}{% include "_go.html" %}{% endwith %}
+{% endif %}

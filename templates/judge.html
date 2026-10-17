@@ -1,3 +1,4 @@
+{% with at = 0 %}{% include "_progress.html" %}{% endwith %}
 <div class="judgments">
   <h2>AI の判定 <small>Jev・{{ ms }}</small></h2>
   <ul>
@@ -10,4 +11,4 @@
     {% endfor %}
   </ul>
 </div>
-{% include "_next.html" %}
+{% with label = "1日目をはじめる", waiting = "朝の場面を書いています…" %}{% include "_go.html" %}{% endwith %}
