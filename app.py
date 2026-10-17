@@ -10,9 +10,17 @@ import time
 
 from flask import Flask, render_template, request
 
+import cache
 import sim
 
 app = Flask(__name__)
+
+
+def _took(t0):
+    """画面に出す応答の時間。キャッシュから答えた時は「キャッシュ」。"""
+    if cache.last["source"] == "cache":
+        return "キャッシュ"
+    return f"{round((time.perf_counter() - t0) * 1000)}ms"
 
 # デモの初期値（架空の企業と求職者）
 SAMPLE_COMPANY = (
@@ -48,7 +56,7 @@ def _carry(state):
 
 @app.get("/")
 def index():
-    return render_template("index.html", company=SAMPLE_COMPANY, seeker=SAMPLE_SEEKER)
+    return render_template("index.html", company=SAMPLE_COMPANY, seeker=SAMPLE_SEEKER, mode=cache.mode())
 
 
 @app.post("/judge")
@@ -59,7 +67,7 @@ def judge():
         st["answers"] = sim.judge(st["company"], st["seeker"])
     except Exception as e:  # デモ中は画面にエラーを出して続ける
         return render_template("error.html", where="Jev", message=str(e))
-    ms = round((time.perf_counter() - t0) * 1000)
+    ms = _took(t0)
     return render_template("judge.html", judgments=sim.judgments_view(st["answers"]), ms=ms, **_carry(st))
 
 
@@ -75,7 +83,7 @@ def scene():
             result = sim.next_scene(st["company"], st["seeker"], st["answers"], st["history"])
     except Exception as e:
         return render_template("error.html", where="Gemini", message=str(e))
-    ms = round((time.perf_counter() - t0) * 1000)
+    ms = _took(t0)
     if done:
         fits = [h["fit"] for h in st["history"]]
         avg = {k: round(sum(f[k] for f in fits) / len(fits)) for k in ("company_fit", "self_fit")}
@@ -96,7 +104,7 @@ def choose():
         fit = sim.judge_action(st["company"], st["seeker"], current, action)
     except Exception as e:
         return render_template("error.html", where="Jev", message=str(e))
-    ms = round((time.perf_counter() - t0) * 1000)
+    ms = _took(t0)
     st["history"].append({"scene": current, "action": action, "fit": fit})
     return render_template(
         "choose.html", action=action, fit=fit, ms=ms, last=len(st["history"]) >= len(sim.SLOTS), **_carry(st)
@@ -104,5 +112,9 @@ def choose():
 
 
 if __name__ == "__main__":
-    sim.gemini_client.warm_up()  # 最初の場面が gcloud を待たないように
+    if cache.mode() != "cache":
+        try:
+            sim.gemini_client.warm_up()  # 最初の場面が gcloud を待たないように
+        except Exception as e:  # 落ちても、場面を作る時に取り直す
+            print(f"warm_up に失敗: {e}")
     app.run(debug=True)

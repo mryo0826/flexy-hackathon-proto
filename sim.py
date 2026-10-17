@@ -6,8 +6,20 @@
 
 import json
 
+import cache
 import gemini_client
 import jev_client
+
+
+def _jev(state, questions):
+    return cache.call("jev", {"state": state, "questions": questions}, lambda: jev_client.ask(state, questions))
+
+
+def _gemini(prompt, schema):
+    return cache.call(
+        "gemini", {"prompt": prompt, "schema": schema, "model": gemini_client.MODEL},
+        lambda: gemini_client.generate_json(prompt, schema),
+    )
 
 LEVELS5 = ["とても低い", "低い", "普通", "高い", "とても高い"]
 
@@ -70,7 +82,7 @@ SLOTS = [
 
 def judge(company, seeker):
     """Jev の答え（answers）をそのまま返す。"""
-    return jev_client.ask({"company": company, "seeker": seeker}, QUESTIONS)
+    return _jev({"company": company, "seeker": seeker}, QUESTIONS)
 
 
 def _score_pct(answer, n_levels):
@@ -115,7 +127,7 @@ def judgments_view(answers):
 
 def judge_action(company, seeker, scene, action):
     """選んだ行動を判定し、{"company_fit": 0〜100, "self_fit": 0〜100} を返す。"""
-    answers = jev_client.ask(
+    answers = _jev(
         {"company": company, "seeker": seeker, "scene": scene["text"] + "\n" + scene["question"], "action": action},
         ACTION_QUESTIONS,
     )
@@ -205,14 +217,14 @@ def next_scene(company, seeker, answers, history):
     prompt = SCENE_PROMPT.format(
         slot_name=slot["name"], slot_range=slot["range"], **_common_args(company, seeker, answers, history)
     )
-    scene = gemini_client.generate_json(prompt, SCENE_SCHEMA)
+    scene = _gemini(prompt, SCENE_SCHEMA)
     scene["options"] = scene["options"][:3]
     return scene
 
 
 def ending(company, seeker, answers, history):
     prompt = ENDING_PROMPT.format(**_common_args(company, seeker, answers, history))
-    return gemini_client.generate_json(prompt, ENDING_SCHEMA)
+    return _gemini(prompt, ENDING_SCHEMA)
 
 
 def dumps(obj):
