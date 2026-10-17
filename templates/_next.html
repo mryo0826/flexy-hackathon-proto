@@ -1,0 +1,5 @@
+{# 読み込まれたらすぐ次の場面（または締めくくり）を取りに行く #}
+<form hx-post="/scene" hx-trigger="load" hx-target="this" hx-swap="outerHTML">
+  {% include "_carry.html" %}
+  <p class="waiting">{{ waiting or "入社1日目が始まります…" }}</p>
+</form>

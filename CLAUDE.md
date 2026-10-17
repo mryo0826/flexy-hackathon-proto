@@ -13,7 +13,7 @@
 | コーディング | Devin CLI（SWE-1.6 Slow）を試す。Claude Pro とは別の枠で動く | このディレクトリ。呼び方（人が端末で使うか、Claude Code から呼ぶか）は当日決める `[To Be Verified]` |
 
 - ⚠️ **このディレクトリでは、AIDD の `CLAUDE.md` は読み込まれない**（`CLAUDE.md` は起動したフォルダとその親からだけ読まれる）。**`review-before-*` 等の AIDD の Skill も使えない** `[Judgment]`。⇒ **規律は本ファイルの1節と6節が自前で持つ。** 🔴 **起動した直後に、リムルの `/context` の Skill の一覧で、AIDD の Skill（`review-before-commit` 等）が無い事を確かめ、結果を `notes.md` に書く**（司令塔の側の確かめ `rp3`）。
-- 🔴 **このディレクトリで動くセッションが読み書きするのは、このディレクトリの中だけ。** 作業日誌（`../aidd-worklog/`）と AIDD の正本（`../aidd-practice-guide/`）は、読みも書きもしない（2026-10-17 の mryo0826 の裁定 `rd1`）。⇒ **要る物は、このディレクトリの `.md` に置く**（`CLAUDE.md`・`handoff-v4.md`・`notes.md`）。
+- 🔴 **このディレクトリで動くセッションが読み書きするのは、このディレクトリの中だけ。** 作業日誌（`../aidd-worklog/`）と AIDD の正本（`../aidd-practice-guide/`）は、読みも書きもしない（2026-10-17 の mryo0826 の裁定 `rd1`）。⇒ **要る物は、このディレクトリの `.md` に置く**（`CLAUDE.md`・`handoff-v4.md`・`notes.md`・`jev.md`）。
 - **当日の判断と気づきは `notes.md` に書く**（時刻・何を決めたか・誰が決めたか）。**作業日誌への写しは、司令塔のセッションがする。**
 
 ## 1. 対話の規約
@@ -57,7 +57,7 @@
 
 - 🔴 **主催の配布データは使わない**（どの AI にも読ませない）。配布データの厳守事項は `handoff-v4.md` の16節。
 - **API キーは環境変数にある**（`.env` は作らない）。⚠️ **Claude の API は、Claude Pro の定額とは別に、API の料金で課金される。** 実現性（20点）でコストを話すなら、根拠は API の料金。
-- **Jev（TypeSafe）を使うなら、問いの型は Choice・Score・Noul。** 東京からの応答は 130〜300ms（mryo0826 の実測）。
+- **Jev（TypeSafe）を使うなら、問いの型は Choice・Score・Noul。** 東京からの応答は 130〜300ms（mryo0826 の実測）。**呼び方（REST・curl・本文と答えの形・エラー・料金）は `jev.md`。**
 
 ## 6. ゲート（外に出す前・戻せない操作の前に止まる）
 

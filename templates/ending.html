@@ -1,0 +1,20 @@
+<div class="ending">
+  <h2>1日目の終わり <small>Gemini・{{ ms }}ms</small></h2>
+  <p>{{ end.text }}</p>
+  <ul class="fit">
+    <li class="{{ 'bad' if avg.company_fit < 50 }}">
+      <span class="label">会社の期待との合い方（平均）</span>
+      <span class="bar"><span style="width: {{ avg.company_fit }}%"></span></span>
+      <span class="value">{{ avg.company_fit }}</span>
+    </li>
+    <li class="{{ 'bad' if avg.self_fit < 50 }}">
+      <span class="label">自分の希望の守り方（平均）</span>
+      <span class="bar"><span style="width: {{ avg.self_fit }}%"></span></span>
+      <span class="value">{{ avg.self_fit }}</span>
+    </li>
+  </ul>
+  <h3>6ヶ月後のあなた</h3>
+  <p>{{ end.six_months }}</p>
+  <h3>まとめ</h3>
+  <p>{{ end.summary }}</p>
+</div>

@@ -1,0 +1,13 @@
+<div class="judgments">
+  <h2>AI の判定 <small>Jev・{{ ms }}ms</small></h2>
+  <ul>
+    {% for j in judgments %}
+    <li class="{{ 'bad' if j.bad }}">
+      <span class="label">{{ j.label }}</span>
+      <span class="bar"><span style="width: {{ j.pct }}%"></span></span>
+      <span class="value">{{ j.value }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% include "_next.html" %}

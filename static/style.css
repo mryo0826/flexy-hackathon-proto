@@ -1,0 +1,36 @@
+/* 最小限の見た目。作り込みは Devin に任せる予定（notes.md の 11:08） */
+body { font-family: system-ui, "Yu Gothic UI", sans-serif; margin: 0; background: #f7f7f5; color: #222; font-size: 18px; }
+header, main { max-width: 900px; margin: 0 auto; padding: 16px; }
+h1 { margin: 16px 0 4px; }
+.lead { margin: 0; color: #555; }
+label { display: block; margin: 12px 0; font-weight: 600; }
+textarea { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; font: inherit; padding: 8px; }
+button { font: inherit; padding: 8px 20px; cursor: pointer; }
+.htmx-indicator { display: none; margin-left: 8px; color: #555; }
+.htmx-request .htmx-indicator, .htmx-request.htmx-indicator { display: inline; }
+h2 small { font-weight: normal; color: #888; font-size: 0.6em; }
+.judgments ul { list-style: none; padding: 0; }
+.judgments li { display: grid; grid-template-columns: 14em 1fr 8em; gap: 12px; align-items: center; margin: 6px 0; }
+.bar { background: #ddd; height: 12px; border-radius: 6px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #4a7; }
+.judgments li.bad .bar span { background: #d64; }
+.judgments li.bad .value { color: #c40; font-weight: 600; }
+.waiting { color: #555; }
+.timeline { list-style: none; padding: 0; }
+.timeline li { display: grid; grid-template-columns: 5em 1fr; gap: 12px; padding: 8px 0; border-top: 1px solid #ddd; }
+.timeline .time { font-weight: 700; }
+.timeline h3 { margin: 0 0 4px; }
+.timeline p { margin: 0; }
+.timeline li.mismatch { background: #fff3ef; }
+.note { color: #c40; margin-top: 4px !important; }
+.scene, .ending { border-top: 2px solid #ccc; margin-top: 16px; padding-top: 8px; }
+.step { background: #333; color: #fff; border-radius: 4px; padding: 0 8px; font-size: 0.7em; vertical-align: middle; }
+.question { font-weight: 700; }
+.actions button { display: block; width: 100%; text-align: left; margin: 6px 0; padding: 10px 14px; background: #fff; border: 1px solid #bbb; border-radius: 6px; }
+.actions button:hover { border-color: #333; }
+.chosen .action { font-weight: 700; }
+.fit { list-style: none; padding: 0; }
+.fit li { display: grid; grid-template-columns: 14em 1fr 4em; gap: 12px; align-items: center; margin: 6px 0; }
+.fit li.bad .bar span { background: #d64; }
+.fit li.bad .value { color: #c40; font-weight: 600; }
+.error pre { white-space: pre-wrap; background: #fee; padding: 8px; }

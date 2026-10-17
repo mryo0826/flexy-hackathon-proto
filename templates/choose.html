@@ -1,0 +1,17 @@
+<div class="chosen">
+  <p class="action">あなたの選択: {{ action }}</p>
+  <ul class="fit">
+    <li class="{{ 'bad' if fit.company_fit < 50 }}">
+      <span class="label">会社の期待との合い方</span>
+      <span class="bar"><span style="width: {{ fit.company_fit }}%"></span></span>
+      <span class="value">{{ fit.company_fit }}</span>
+    </li>
+    <li class="{{ 'bad' if fit.self_fit < 50 }}">
+      <span class="label">自分の希望の守り方</span>
+      <span class="bar"><span style="width: {{ fit.self_fit }}%"></span></span>
+      <span class="value">{{ fit.self_fit }}</span>
+    </li>
+  </ul>
+  <small>Jev・{{ ms }}ms</small>
+</div>
+{% with waiting = "1日目を振り返っています…" if last else "次の場面へ…" %}{% include "_next.html" %}{% endwith %}
