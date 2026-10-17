@@ -1,5 +1,7 @@
 # ハッカソン発表：AI音声＋スライド動画 作成ガイド
 
+> ⚠️ **実際には、声は Fish Audio（`fish-audio.net`）ではなく Google の音声合成（Text-to-Speech）で作った**（運営元と声の権利が辿れなかった為。`notes.md` の 14:46・14:57）。スライドの画像は Playwright ではなく Edge のヘッドレスで撮った。今の作り方は `STATE.md` の4節（`build_video.py`・`build_demo_video.py`）。
+
 > 対象：デモ部分（1:45〜4:45）以外を「AI音声＋スライド動画」で自動化する
 > 前提：台本 `pitch.md` あり、Flaskスライドサーバー（`127.0.0.1:5000/slides`）が動作中
 

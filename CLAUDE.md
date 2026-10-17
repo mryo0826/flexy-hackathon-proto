@@ -13,7 +13,8 @@
 | コーディング | Devin CLI（SWE-1.6 Slow）を試す。Claude Pro とは別の枠で動く | このディレクトリ。呼び方（非対話の `devin -p`・頼む中身に入れる事・終わった後の確かめ）は `devin-use.md` |
 
 - ⚠️ **このディレクトリでは、AIDD の `CLAUDE.md` は読み込まれない**（`CLAUDE.md` は起動したフォルダとその親からだけ読まれる）。**`review-before-*` 等の AIDD の Skill も使えない** `[Judgment]`。⇒ **規律は本ファイルの1節と6節が自前で持つ。** 🔴 **起動した直後に、リムルの `/context` の Skill の一覧で、AIDD の Skill（`review-before-commit` 等）が無い事を確かめ、結果を `notes.md` に書く**（司令塔の側の確かめ `rp3`）。
-- 🔴 **このディレクトリで動くセッションが読み書きするのは、このディレクトリの中だけ。** 作業日誌（`../aidd-worklog/`）と AIDD の正本（`../aidd-practice-guide/`）は、読みも書きもしない（2026-10-17 の mryo0826 の裁定 `rd1`）。⇒ **要る物は、このディレクトリの `.md` に置く**（`CLAUDE.md`・`handoff-v4.md`・`notes.md`・`jev.md`・`devin-use.md`）。
+- 🔴 **このディレクトリで動くセッションが読み書きするのは、このディレクトリの中だけ。** 作業日誌（`../aidd-worklog/`）と AIDD の正本（`../aidd-practice-guide/`）は、読みも書きもしない（2026-10-17 の mryo0826 の裁定 `rd1`）。⇒ **要る物は、このディレクトリの `.md` に置く**（`CLAUDE.md`・`STATE.md`・`notes.md`・`pitch.md`・`thumbnail.md`・`jev.md`・`devin-use.md`・`handoff-v4.md`）。
+- 🔴 **新しいセッション（別の環境で `git clone` した時も）は、本ファイルの次に `STATE.md` を読む。** 今の状態・動かし方・ファイルの地図・残っている事は `STATE.md` が持つ（2026-10-17 15:5x 以降）。
 - **当日の判断と気づきは `notes.md` に書く**（時刻・何を決めたか・誰が決めたか）。**作業日誌への写しは、司令塔のセッションがする。**
 
 ## 1. 対話の規約
@@ -56,7 +57,8 @@
 ## 5. データと API
 
 - 🔴 **主催の配布データは使わない**（どの AI にも読ませない）。配布データの厳守事項は `handoff-v4.md` の16節。
-- **API キーは環境変数にある**（`.env` は作らない）。⚠️ **Claude の API は、Claude Pro の定額とは別に、API の料金で課金される。** 実現性（20点）でコストを話すなら、根拠は API の料金。
+- **プロトタイプが使う AI と認証（2026-10-17 の実態。`notes.md` の 10:50・10:55・14:46）:** Jev は環境変数 `TYPESAFE_API_KEY`。Gemini（Vertex AI）と音声合成（Text-to-Speech）は gcloud のユーザー認証のトークン（`gcloud auth print-access-token`・ADC は使わない）。**Claude は使わない**（Claude Pro の定額の中で使っていて、API キーは無い）。`.env` は作らない。
+- 実現性（20点）でコストを話すなら、根拠は各 API の料金と実測の tokens（`notes.md` の 12:31・12:36）。
 - **Jev（TypeSafe）を使うなら、問いの型は Choice・Score・Noul。** 東京からの応答は 130〜300ms（mryo0826 の実測）。**呼び方（REST・curl・本文と答えの形・エラー・料金）は `jev.md`。**
 
 ## 6. ゲート（外に出す前・戻せない操作の前に止まる）
