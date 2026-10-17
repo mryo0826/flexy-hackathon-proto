@@ -8,9 +8,12 @@
   <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
 </head>
 <body>
-  <header>
-    <h1>入社前シミュレーター{% if mode == "cache" %} <small>キャッシュモード</small>{% endif %}</h1>
-    <p class="lead">応募する前に、その会社での「入社1日目」を体験する。</p>
+  <header class="hero">
+    <div class="hero-text">
+      <p class="brand">入社前シミュレーター{% if mode == "cache" %} <small>キャッシュモード</small>{% endif %}</p>
+      <h1>応募する前に、<br>入社1日目を。</h1>
+      <p class="lead">AI が、その会社でのあなたの1日をシミュレーションします</p>
+    </div>
   </header>
   <main>
     <form hx-post="/judge" hx-target="#result" hx-indicator="#judging">

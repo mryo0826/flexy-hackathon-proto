@@ -1,17 +1,81 @@
 /* 入社前シミュレーター - 投影用スタイル */
+:root {
+  --sky: #CCF3FA;
+  --cream: #FDF6D8;
+  --mint: #D7F7F4;
+  --lavender: #E8DDF5;
+  --pink: #F6D3E4;
+  --ink: #3B4A6B;
+  --good: #5DBB97;
+  --bad: #EE8577;
+  --bad-text: #C2473A; /* 文字用。--bad は白との濃さの比が 2.5 で、投影では読みにくい */
+}
+
 body {
   font-family: system-ui, "Yu Gothic UI", sans-serif;
   margin: 0;
-  background: #f5f5f3;
-  color: #222;
+  background: linear-gradient(to bottom, var(--sky), var(--cream));
+  color: var(--ink);
   font-size: 20px;
   line-height: 1.6;
 }
 
-header, main {
+header {
+  margin: 0;
+  padding: 0;
+}
+
+main {
   max-width: 1000px;
   margin: 0 auto;
   padding: 24px;
+}
+
+/* 画像（1376×768）を切らずに丸ごと見せる。本文と同じ幅で、縦横比を画像に合わせる */
+.hero {
+  background: url("hero.jpg") center / 100% 100% no-repeat;
+  aspect-ratio: 1376 / 768;
+  width: calc(100% - 48px);
+  max-width: 952px;
+  margin: 24px auto 0;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 画像の左の淡い面（幅の約35%）の上に文字を置く */
+.hero-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 35%;
+  height: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brand {
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(22px, 3.4vw, 36px);
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.hero .lead {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(14px, 1.9vw, 20px);
 }
 
 h1 {
@@ -21,7 +85,7 @@ h1 {
 
 .lead {
   margin: 0 0 24px;
-  color: #555;
+  color: var(--ink);
   font-size: 22px;
 }
 
@@ -49,14 +113,15 @@ button {
   padding: 12px 24px;
   cursor: pointer;
   font-size: 20px;
-  border-radius: 6px;
-  border: 1px solid #bbb;
+  border-radius: 12px;
+  border: 1px solid #ccc;
   background: #fff;
+  color: var(--ink);
 }
 
 button:hover {
-  border-color: #333;
-  background: #fafafa;
+  background: var(--lavender);
+  border-color: var(--lavender);
 }
 
 .htmx-indicator {
@@ -91,8 +156,8 @@ h3 {
 .judgments {
   background: #fff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   margin-bottom: 20px;
 }
 
@@ -124,16 +189,16 @@ h3 {
 .bar span {
   display: block;
   height: 100%;
-  background: #4a7;
+  background: var(--good);
   transition: width 0.3s ease;
 }
 
 .judgments li.bad .bar span {
-  background: #d64;
+  background: var(--bad);
 }
 
 .judgments li.bad .value {
-  color: #c40;
+  color: var(--bad-text);
   font-weight: 600;
 }
 
@@ -149,17 +214,17 @@ h3 {
 }
 
 .note {
-  color: #c40;
+  color: var(--bad-text);
   margin-top: 8px !important;
   font-size: 18px;
 }
 
 .scene, .ending {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 24px;
   margin-top: 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .scene p, .ending p {
@@ -168,8 +233,8 @@ h3 {
 }
 
 .step {
-  background: #333;
-  color: #fff;
+  background: var(--lavender);
+  color: var(--ink);
   border-radius: 4px;
   padding: 4px 12px;
   font-size: 0.6em;
@@ -186,8 +251,8 @@ h3 {
 .actions {
   margin-top: 20px;
   padding: 16px;
-  background: #fafafa;
-  border-radius: 6px;
+  background: var(--mint);
+  border-radius: 12px;
 }
 
 .actions button {
@@ -200,9 +265,9 @@ h3 {
 }
 
 .chosen {
-  background: #f0f7ff;
+  background: var(--mint);
   padding: 16px;
-  border-radius: 6px;
+  border-radius: 12px;
   margin-top: 16px;
 }
 
@@ -228,11 +293,11 @@ h3 {
 }
 
 .fit li.bad .bar span {
-  background: #d64;
+  background: var(--bad);
 }
 
 .fit li.bad .value {
-  color: #c40;
+  color: var(--bad-text);
   font-weight: 600;
 }
 
@@ -249,8 +314,8 @@ h3 {
 }
 
 .presets button.on {
-  border: 2px solid #333;
-  background: #f0f7ff;
+  border: 2px solid var(--ink);
+  background: var(--sky);
 }
 
 .error pre {
