@@ -1,21 +1,13 @@
 {% with at = step %}{% include "_progress.html" %}{% endwith %}
 <div class="scene chosen">
-  <h2>{{ scene.time }} {{ scene.title }}</h2>
+  {# 進むボタンまで1画面（1280×720）に収める為、時刻は題の行に、物差しの注は見出しの横に寄せる #}
+  <h2><span class="pill">{{ scene.time }}</span> {{ scene.title }}</h2>
+  <p class="tag">分かれ道</p>
   <p class="question">{{ scene.question }}</p>
-  <p class="action">あなたの選択: {{ action }}</p>
-  <ul class="fit">
-    <li class="{{ 'bad' if fit.company_fit < 50 }}">
-      <span class="label">会社の期待との合い方</span>
-      <span class="bar"><span style="width: {{ fit.company_fit }}%"></span></span>
-      <span class="value">{{ fit.company_fit }}</span>
-    </li>
-    <li class="{{ 'bad' if fit.self_fit < 50 }}">
-      <span class="label">自分の希望の守り方</span>
-      <span class="bar"><span style="width: {{ fit.self_fit }}%"></span></span>
-      <span class="value">{{ fit.self_fit }}</span>
-    </li>
-  </ul>
-  <small>Jev・{{ ms }}</small>
+  <p class="tag tag-you">あなたの選択</p>
+  <blockquote class="your-action">{{ action }}</blockquote>
+  <h3>AI の判定 <small>この選択を、2つの物差しで 0〜100 で測った（50 未満は赤）・Jev・{{ ms }}</small></h3>
+  {% include "_fit.html" %}
 </div>
 {% if last %}
 {% with label = "1日目を振り返る", waiting = "1日目を振り返っています…" %}{% include "_go.html" %}{% endwith %}

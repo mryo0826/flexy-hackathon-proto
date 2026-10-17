@@ -1,14 +1,22 @@
 {% with at = step %}{% include "_progress.html" %}{% endwith %}
 <div class="scene">
-  <h2>{{ scene.time }} {{ scene.title }} <small>Gemini・{{ ms }}</small></h2>
-  <p>{{ scene.text }}</p>
+  <p class="scene-head"><span class="pill">{{ scene.time }}</span><small>Gemini・{{ ms }}</small></p>
+  <h2>{{ scene.title }}</h2>
+  <p class="scene-text">{{ scene.text }}</p>
   <div class="actions">
+    <p class="tag">分かれ道</p>
     <p class="question">{{ scene.question }}</p>
+    <p class="prompt">あなたならどうする？ 1つ選んで下さい</p>
     <form hx-post="/choose" hx-target="#stage" hx-swap="innerHTML show:window:top" hx-disabled-elt="button">
       {% include "_carry.html" %}
       <input type="hidden" name="scene" value="{{ scene_json }}">
+      {# value は選んだ行動の文そのまま（キャッシュの鍵になるので、印は見た目だけに付ける） #}
       {% for o in scene.options %}
-      <button type="submit" name="action" value="{{ o }}">{{ o }}</button>
+      <button type="submit" name="action" value="{{ o }}" class="option">
+        <span class="opt-key">{{ "ABC"[loop.index0] }}</span>
+        <span class="opt-text">{{ o }}</span>
+        <span class="opt-arrow">›</span>
+      </button>
       {% endfor %}
       <span class="htmx-indicator">判定中…</span>
     </form>

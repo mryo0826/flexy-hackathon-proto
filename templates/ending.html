@@ -1,5 +1,10 @@
 {% with at = 4 %}{% include "_progress.html" %}{% endwith %}
 <div class="ending">
+  <div class="route route-{{ route.key }}">
+    <p class="route-kicker">1日目を終えて ─ この会社とあなたの相性</p>
+    <p class="route-label">{{ route.title }}</p>
+    <p class="route-sub">{{ route.note }}</p>
+  </div>
   <h2>1日目の終わり <small>Gemini・{{ ms }}</small></h2>
   <p>{{ end.text }}</p>
   <h3>6ヶ月後のあなた</h3>
@@ -7,22 +12,13 @@
   <h3>まとめ</h3>
   <p>{{ end.summary }}</p>
   <h3>あなたの3つの選択</h3>
+  <p class="fit-note">選ぶ度に、AI（Jev）が2つの物差しで 0〜100 で測りました。50 未満は赤で出ます。</p>
   <ol class="history">
     {% for h in history %}
     <li>
-      <p class="action"><span class="time">{{ h.scene.time }}</span> {{ h.action }}</p>
-      <ul class="fit">
-        <li class="{{ 'bad' if h.fit.company_fit < 50 }}">
-          <span class="label">会社の期待との合い方</span>
-          <span class="bar"><span style="width: {{ h.fit.company_fit }}%"></span></span>
-          <span class="value">{{ h.fit.company_fit }}</span>
-        </li>
-        <li class="{{ 'bad' if h.fit.self_fit < 50 }}">
-          <span class="label">自分の希望の守り方</span>
-          <span class="bar"><span style="width: {{ h.fit.self_fit }}%"></span></span>
-          <span class="value">{{ h.fit.self_fit }}</span>
-        </li>
-      </ul>
+      <p class="scene-head"><span class="pill">{{ h.scene.time }}</span></p>
+      <blockquote class="your-action">{{ h.action }}</blockquote>
+      {% with fit = h.fit %}{% include "_fit.html" %}{% endwith %}
     </li>
     {% endfor %}
   </ol>

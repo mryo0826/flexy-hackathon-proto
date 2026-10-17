@@ -2,18 +2,25 @@
 {% block content %}
 <main>
   <h2>どの会社の1日目を体験しますか？</h2>
+  <p class="hint">会社を1つ選んで、下のボタンを押して下さい（全て架空の会社です）</p>
   <form method="post" action="/play">
     <div class="presets">
       {% for c in companies %}
-      <button type="button" class="{{ 'on' if loop.first }}" data-text="{{ c.text }}">{{ c.name }}<small>{{ c.hint }}</small></button>
+      <button type="button" class="{{ 'on' if loop.first }}" data-text="{{ c.text }}">
+        <span class="check">✓ 選択中</span>
+        {{ c.name }}<small>{{ c.hint }}</small>
+      </button>
       {% endfor %}
     </div>
-    <label>会社（架空）
-      <textarea name="company" rows="4">{{ company }}</textarea>
-    </label>
-    <label>あなたの希望
-      <textarea name="seeker" rows="3">{{ seeker }}</textarea>
-    </label>
+    {# 2つの説明は体験の前提なので、常に見せる（notes.md の u1）。会社のボタンで左の欄が差し替わる #}
+    <div class="briefs">
+      <label>会社（架空）<span class="editable">✎ 書き換えられます</span>
+        <textarea name="company" rows="5">{{ company }}</textarea>
+      </label>
+      <label>あなたの希望<span class="editable">✎ 書き換えられます</span>
+        <textarea name="seeker" rows="5">{{ seeker }}</textarea>
+      </label>
+    </div>
     <button type="submit" class="cta">この会社で1日目を体験する</button>
   </form>
 </main>

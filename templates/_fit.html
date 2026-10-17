@@ -1,0 +1,13 @@
+{# 選んだ行動の2本の棒。fit = {"company_fit": 0〜100, "self_fit": 0〜100} #}
+<ul class="fit">
+  <li class="{{ 'bad' if fit.company_fit < 50 }}">
+    <span class="label">会社の期待との合い方<span class="desc">会社が新人に期待する振る舞いに、どの位沿っているか</span></span>
+    <span class="bar"><span style="width: {{ fit.company_fit }}%"></span></span>
+    <span class="value">{{ fit.company_fit }}<small> / 100</small></span>
+  </li>
+  <li class="{{ 'bad' if fit.self_fit < 50 }}">
+    <span class="label">自分の希望の守り方<span class="desc">あなたの希望（働き方・学び等）を、どの位守れているか</span></span>
+    <span class="bar"><span style="width: {{ fit.self_fit }}%"></span></span>
+    <span class="value">{{ fit.self_fit }}<small> / 100</small></span>
+  </li>
+</ul>

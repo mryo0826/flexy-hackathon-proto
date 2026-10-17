@@ -1,6 +1,7 @@
 {% with at = 0 %}{% include "_progress.html" %}{% endwith %}
 <div class="judgments">
   <h2>AI の判定 <small>Jev・{{ ms }}</small></h2>
+  <p class="fit-note">会社の説明とあなたの希望から、AI（Jev）が5つの点を判定しました。赤は、気を付けたい点です。</p>
   <ul>
     {% for j in judgments %}
     <li class="{{ 'bad' if j.bad }}">

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>入社前シミュレーター — 発表</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* 発表のスライド（notes.md の sl1）。→ / Space / クリックで次、← で前。数字は notes.md の実測 */
+    body { overflow: hidden; }
+    .slide { display: none; box-sizing: border-box; width: 100vw; height: 100vh; padding: 6vh 8vw; flex-direction: column; justify-content: center; }
+    .slide.on { display: flex; }
+    .slide h1 { font-size: 5.2vh; margin: 0 0 3vh; }
+    .slide h2 { font-size: 4.4vh; margin: 0 0 3vh; }
+    .slide p, .slide li, .slide td, .slide th { font-size: 3.1vh; line-height: 1.6; }
+    .slide .big { font-size: 4.2vh; font-weight: 800; }
+    .slide .muted { color: #6b7590; font-size: 2.4vh; }
+    .kicker { display: inline-block; align-self: flex-start; padding: 0.3vh 1.4vh; border-radius: 999px; background: var(--ink); color: #fff; font-size: 2.2vh; font-weight: 700; margin-bottom: 2vh; }
+    .title-slide { padding: 0; }
+    .title-slide .hero { width: min(100vw, 178vh); max-width: none; margin: auto; border-radius: 0; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4vw; }
+    .steps div { background: #fff; border-radius: 16px; padding: 3vh 2vw; border: 1px solid rgba(59, 74, 107, 0.12); }
+    .steps b { display: block; font-size: 3.4vh; margin-bottom: 1vh; }
+    table.cost { border-collapse: collapse; background: #fff; border-radius: 16px; overflow: hidden; }
+    table.cost th, table.cost td { padding: 1.4vh 2vw; border-bottom: 1px solid #e3e7ef; text-align: left; }
+    table.cost th { background: var(--lavender); }
+    table.cost tr.total td { font-weight: 800; background: #e3f6ee; }
+    .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; }
+    .three div { background: #fff; border-radius: 16px; padding: 3vh 1.6vw; border: 1px solid rgba(59, 74, 107, 0.12); }
+    .three b { display: block; font-size: 3.4vh; margin-bottom: 1vh; }
+    .pager { position: fixed; right: 2vw; bottom: 2vh; font-size: 2vh; color: #8a93a8; }
+  </style>
+</head>
+<body>
+
+<section class="slide title-slide">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="brand">入社前シミュレーター</p>
+      <h1>応募する前に、<br>入社1日目を。</h1>
+      <p class="lead">AI が、その会社でのあなたの1日をシミュレーションします</p>
+    </div>
+  </header>
+</section>
+
+<section class="slide">
+  <span class="kicker">課題</span>
+  <h2>転職で一番怖いのは「入ってみたら違った」</h2>
+  <p>残業の多さ、職場の空気、自分の希望がどこでぶつかるか。<br>求人票にも、口コミにも、面接にも、なかなか出てこない。</p>
+  <p class="big">ミスマッチは「情報が足りない」からではなく、<br>「体験できない」から起きる。</p>
+</section>
+
+<section class="slide">
+  <span class="kicker">解き方</span>
+  <h2>応募する前に、その会社での入社1日目を体験する</h2>
+  <div class="steps">
+    <div><b>1. 判定</b>会社の説明とあなたの希望から、AI が残業・雰囲気・成長・相性・辞めたくなる可能性を判定</div>
+    <div><b>2. 選ぶ</b>朝・午後・夕方の3つの分かれ道で、あなたが行動を選ぶ。選ぶ度に「会社の期待」と「自分の希望」の2本の物差しで測る</div>
+    <div><b>3. 相性</b>選び方で結末が変わる。1日の終わり・6ヶ月後のあなた・応募前に確かめる事</div>
+  </div>
+  <p class="muted">人の手では作れない、会社毎・人毎・選択毎の体験。だから AI でつくる。</p>
+</section>
+
+<section class="slide">
+  <span class="kicker">デモ</span>
+  <h1>入社1日目を、体験してみます</h1>
+  <p class="muted">（ここでアプリのタブに切り替える）</p>
+</section>
+
+<section class="slide">
+  <span class="kicker">実現性</span>
+  <h2>判断と文章を、2つの AI で分けた</h2>
+  <table class="cost">
+    <tr><th></th><th>Jev（TypeSafe）</th><th>Gemini 2.5 Flash（Google）</th></tr>
+    <tr><td>役割</td><td>判断（会社の判定・選択の物差し）</td><td>文章（場面・3択・振り返り）</td></tr>
+    <tr><td>応答（今日の実測）</td><td>0.2〜0.4 秒</td><td>2〜6 秒</td></tr>
+    <tr><td>単価（100万 tokens）</td><td>入力 $0.042</td><td>入力 $0.30・出力 $2.50</td></tr>
+    <tr><td>1人の体験（4回ずつ）</td><td>約 $0.00015（約 0.02 円）</td><td>約 $0.0029（約 0.43 円）</td></tr>
+    <tr class="total"><td>合計</td><td colspan="2">1人の体験 約 0.45 円 ／ 1,000人で約 450 円</td></tr>
+  </table>
+  <p class="muted">tokens は今日の実測（1人の体験: Jev 入力 3,567・出力 209、Gemini 入力 3,290・出力 761）。1ドル150円で換算。会社毎・選択毎の結果は保存して使い回せる。</p>
+</section>
+
+<section class="slide">
+  <span class="kicker">事業性</span>
+  <h2>誰が困り、誰が払い、何故乗り換えるか</h2>
+  <div class="three">
+    <div><b>誰が困っている</b>入社後のミスマッチで辞める求職者。採用にかけた費用を失う企業。定着しない紹介で信頼を失う人材紹介のサービス。</div>
+    <div><b>誰が払う</b>採用する企業。求人と一緒に「入社1日目の体験」を載せるオプションとして、人材紹介のサービスに組み込む。企業は、今ある求人票や会社の説明を入れるだけ。</div>
+    <div><b>何故乗り換える</b>今の求人票と面接には、ぶつかる所を応募前に見せる手段が無い。体験した上で応募した人は、ミスマッチの理由を自分で確かめてから来る。</div>
+  </div>
+</section>
+
+<section class="slide">
+  <h1>応募する前に、入社1日目を。</h1>
+  <p class="big">「入ってみたら違った」を、入社する前に終わらせる。</p>
+  <p class="muted">入社前シミュレーター</p>
+</section>
+
+<div class="pager"></div>
+<script>
+  const slides = [...document.querySelectorAll(".slide")];
+  let i = 0;
+  const show = (n) => {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle("on", k === i));
+    document.querySelector(".pager").textContent = `${i + 1} / ${slides.length}`;
+  };
+  document.addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " "].includes(e.key)) show(i + 1);
+    if (["ArrowLeft", "PageUp"].includes(e.key)) show(i - 1);
+  });
+  document.addEventListener("click", () => show(i + 1));
+  show((parseInt(location.hash.slice(1), 10) || 1) - 1); // /slides#5 で5枚目から開く
+</script>
+</body>
+</html>

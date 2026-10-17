@@ -182,18 +182,56 @@ SCENE_PROMPT = COMMON + """
 - 求職者を「あなた」と呼ぶ二人称。text は3〜4文で、具体的な出来事と、あなたが感じる事を書く。
 - ここまでの選択の結果を、この場面に自然に引き継ぐ（例: 前の場面で断った事が、周りの反応に表れる）。
 - 場面の終わりは、会社の期待と、あなたの希望がぶつかる小さな分かれ道にする。question でその分かれ道を1文で問う。
-- options は3つ。会社の期待に寄った行動・希望を守る行動・その間の行動を1つずつ、どれが正解か分からない書き方で、順番を混ぜて出す。各1文。
+- options は3つ。「会社の期待に寄った行動」「自分の希望を守る行動」「相談・交渉・段取りの工夫で、会社の期待と自分の希望の両方を叶えようとする行動」を1つずつ、どれが正解か分からない書き方で、順番を混ぜて出す。各1文。
 - 企業の説明に無い大きな事実（具体的な人名・実在の企業名・数字）を作らない。
 """
 
 ENDING_PROMPT = COMMON + """
+# この1日の結末（選択の判定から決まった）
+{route_title}。{route_note}
+{route_guide}
+
 # 書く事
-入社1日目の締めくくりを書く。
+入社1日目の締めくくりを、上の結末に沿って書く。
+- 結末の見出しや、「エンディング」「ルート」の様な言葉は本文に書かない。
 - text: 1日目を終えて帰る道のあなたを、ここまでの選択を踏まえて2〜3文で書く（二人称）。
-- six_months: 入社6ヶ月後のあなたを、会社の判定と、ここまでの選択の傾向を踏まえて2文で予測する。
+- six_months: 入社6ヶ月後のあなたを、上の結末と、ここまでの選択の傾向を踏まえて2文で予測する。
 - summary: この企業とあなたの相性を、応募前に確かめるべき事と合わせて2文でまとめる。
   求職者はまだ応募する前なので、「〜を確かめましょう」と書き、「〜すべきでした」と過去形にしない。
 """
+
+# 結末の3つの道。選んだ行動の2本の棒の平均のうち、低い方で決める（notes.md の gr1）
+# title と note は画面にも出すので、転職サイトの言い方にする（「グッドエンディング」等の比喩は使わない）
+ROUTES = {
+    "good": {
+        "title": "相性が良さそうです",
+        "note": "会社の期待と、あなたの希望を両立できる働き方が見つかりました",
+        "guide": "あなたの選択は、会社の期待と自分の希望の両方を叶えた。text と six_months は前向きに書き、"
+        "「この会社でも、こう動けば続けられる」という希望の持てる予測にする。ただし企業の説明と食い違う甘い事は書かない。"
+        "summary には、上手くいく為の動き方を1つ入れる。",
+    },
+    "mixed": {
+        "title": "工夫すれば続けられそうです",
+        "note": "やっていける手応えはありますが、どこかで無理が出そうです",
+        "guide": "あなたの選択は、会社の期待か自分の希望のどちらかに少し無理をした。text と six_months は、"
+        "やっていける手応えと、続けると出てくる無理の両方を書く。",
+    },
+    "bad": {
+        "title": "入社前に、もう一度確かめましょう",
+        "note": "会社の期待か、あなたの希望のどちらかを大きく削る働き方になりそうです",
+        "guide": "あなたの選択は、会社の期待か自分の希望のどちらかを大きく削った。text と six_months は、"
+        "このまま続けた時のつらさを正直に書き、入る前に考え直す材料にする。",
+    },
+}
+
+
+def route(history):
+    """選んだ行動の判定から、結末の道（good / mixed / bad）を決める。"""
+    low = min(
+        sum(h["fit"][k] for h in history) / len(history) for k in ("company_fit", "self_fit")
+    )
+    key = "good" if low >= 55 else "mixed" if low >= 35 else "bad"
+    return {"key": key, **ROUTES[key]}
 
 
 def _history_text(history):
@@ -229,7 +267,11 @@ def next_scene(company, seeker, answers, history):
 
 
 def ending(company, seeker, answers, history):
-    prompt = ENDING_PROMPT.format(**_common_args(company, seeker, answers, history))
+    r = route(history)
+    prompt = ENDING_PROMPT.format(
+        route_title=r["title"], route_note=r["note"], route_guide=r["guide"],
+        **_common_args(company, seeker, answers, history),
+    )
     return _gemini(prompt, ENDING_SCHEMA)
 
 

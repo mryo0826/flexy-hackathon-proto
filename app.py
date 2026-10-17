@@ -92,6 +92,12 @@ def landing():
     return render_template("landing.html")
 
 
+@app.get("/slides")
+def slides():
+    """発表のスライド（→ / Space / クリックで次、← で前）。"""
+    return render_template("slides.html")
+
+
 @app.get("/start")
 def start():
     return render_template("start.html", companies=COMPANIES, company=SAMPLE_COMPANY, seeker=SAMPLE_SEEKER)
@@ -128,7 +134,9 @@ def scene():
     if done:
         fits = [h["fit"] for h in st["history"]]
         avg = {k: round(sum(f[k] for f in fits) / len(fits)) for k in ("company_fit", "self_fit")}
-        return render_template("ending.html", end=result, avg=avg, history=st["history"], ms=ms)
+        return render_template(
+            "ending.html", end=result, avg=avg, history=st["history"], route=sim.route(st["history"]), ms=ms
+        )
     return render_template(
         "scene.html", scene=result, scene_json=sim.dumps(result), step=len(st["history"]) + 1, ms=ms, **_carry(st)
     )
