@@ -18,7 +18,7 @@
 | サムネ | `thumbnail.png`（1920×1080）。ゲート `g4` 承認済み。**提出済み**（16:05・リムル） |
 | スライド | アプリの `/slides`（7枚） |
 | 発表の動画 | `video/intro.mp4`（1分10秒）・`video/closing.mp4`（1分22秒）。デモはリムルが自分でする |
-| デモの録画（保険） | `video/demo.mp4`（1分53秒） |
+| デモの録画（保険） | `video/demo.mp4`（1分53秒・ハヤテラボの両立の道）。本選の追加用に `video/minato.mp4`（1分43秒・ミナトリンクの一番良い道） |
 | 台本 | `pitch.md`（当日の時刻表とデモの手順） |
 | git | `main` を private の `mryo0826/flexy-hackathon-proto` に push している（最初は 15:46・`ea0411e`、最新の push は `git log origin/main -1` で見る） |
 
