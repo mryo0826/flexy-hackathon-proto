@@ -10,6 +10,7 @@ uv run python build_video.py
 import base64
 import json
 import os
+import shutil
 import subprocess
 import urllib.error
 import urllib.request
@@ -22,12 +23,20 @@ OUT = ROOT / "video"
 VOICES = ["ja-JP-Chirp3-HD-Aoede", "ja-JP-Neural2-B"]  # 女声。前が使えなければ後
 PARTS = {"intro": [1, 2, 3], "closing": [5, 6, 7]}
 PAD = 0.8  # 各スライドの声の後の間（秒）
-EDGE = next(
-    p for p in (
-        os.path.expandvars(r"%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe"),
-        os.path.expandvars(r"%ProgramFiles%\Microsoft\Edge\Application\msedge.exe"),
-    ) if Path(p).exists()
-)
+# 画面を撮る Chromium 系のブラウザ。環境変数 BROWSER があればそれ、無ければ Edge → Chrome の順に探す。
+# 既定を Edge にしたのは、Windows 11 には必ず入っている為（Chrome と比べて選んだ訳ではない。notes.md の x1）
+_CANDIDATES = [
+    os.environ.get("BROWSER", ""),
+    os.path.expandvars(r"%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe"),
+    os.path.expandvars(r"%ProgramFiles%\Microsoft\Edge\Application\msedge.exe"),
+    os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
+    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    shutil.which("microsoft-edge") or "",
+    shutil.which("google-chrome") or "",
+    shutil.which("chromium") or "",
+]
+EDGE = next((p for p in _CANDIDATES if p and Path(p).exists()), None)
 
 
 def tts(text, path):
@@ -65,6 +74,8 @@ def duration(path):
 
 
 def shot_url(url, path):
+    if EDGE is None:
+        raise RuntimeError("Chromium 系のブラウザ（Edge か Chrome）が見つからない。環境変数 BROWSER で場所を指す")
     path.unlink(missing_ok=True)
     subprocess.run(
         [EDGE, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--window-size=1920,1080",

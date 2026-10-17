@@ -1,7 +1,7 @@
 # STATE — 入社前シミュレーター（FLEXY AI ハッカソン Vol.1・2026-10-17）
 
 > **このファイルの役割:** 今の状態・動かし方・ファイルの地図・残っている事を1か所にまとめる。**新しいセッション（別の環境で `git clone` した時も）は、`CLAUDE.md` の次にこれを読む。** 判断の経緯は `notes.md`（時刻順の記録）、発表の手順は `pitch.md`。
-> 最終更新: 2026-10-17 15:5x（AI・Claude Opus 5.5）。
+> 最終更新: 2026-10-17 16:05（AI・Claude Opus 5.5）。
 
 ## 1. 何か
 
@@ -10,21 +10,21 @@
 - 判断は **Jev**（TypeSafe）、文章は **Gemini 2.5 Flash**（Vertex AI）。Claude は使っていない（API キーが無い。`notes.md` の 10:50）。
 - 会社は全て架空（ミナトリンク・ソラノハ・ハヤテラボ）。求職者は1人（18時に帰りたい Web エンジニア）。
 
-## 2. 今の状態（15:5x）
+## 2. 今の状態（16:05）
 
 | 物 | 状態 |
 |---|---|
 | アプリ | 動く。デモは**キャッシュモード**でする（`notes.md` の 15:13） |
-| サムネ | `thumbnail.png`（1920×1080）。ゲート `g4` 承認済み。**提出は未了**（提出先は 16:00 頃に運営が案内） |
+| サムネ | `thumbnail.png`（1920×1080）。ゲート `g4` 承認済み。**提出済み**（16:05・リムル） |
 | スライド | アプリの `/slides`（7枚） |
 | 発表の動画 | `video/intro.mp4`（1分10秒）・`video/closing.mp4`（1分22秒）。デモはリムルが自分でする |
 | デモの録画（保険） | `video/demo.mp4`（1分53秒） |
 | 台本 | `pitch.md`（当日の時刻表とデモの手順） |
-| git | `main` を private の `mryo0826/flexy-hackathon-proto` に push 済み（15:46・`ea0411e`） |
+| git | `main` を private の `mryo0826/flexy-hackathon-proto` に push している（最初は 15:46・`ea0411e`、最新の push は `git log origin/main -1` で見る） |
 
 ## 3. 残っている事
 
-- [ ] サムネの提出（案内が来たら `thumbnail.png`）
+- [x] サムネの提出（16:05 済み）
 - [ ] ゲート `g3`: 本番の手順（`intro.mp4` → デモ → `closing.mp4`）で1回通し、6分以内か測る
 - [ ] `video/` の3本と `thumbnail.png` を、USB メモリかスマホにも写す（今日マシンが3回落ちた）
 
@@ -37,7 +37,7 @@
 | `uv`・Python 3.13 | アプリ（依存は Flask だけ。`uv sync`） |
 | 環境変数 `TYPESAFE_API_KEY` | Jev。ファイルに書かない |
 | `gcloud`（ログイン済み・プロジェクト設定済み） | Gemini と音声合成のトークン（`gcloud auth print-access-token`）。ADC は使わない。プロジェクトで Vertex AI（`aiplatform.googleapis.com`）と音声合成（`texttospeech.googleapis.com`）の API が有効な事 |
-| Microsoft Edge | スライドと画面を撮る（ヘッドレス） |
+| Chromium 系のブラウザ（Edge か Chrome） | スライドと画面を撮る（ヘッドレス）。環境変数 `BROWSER` があればそれ、無ければ Edge → Chrome の順に探す（Windows・Mac・Linux の場所）。既定を Edge にしたのは Windows 11 に必ず入っている為で、Chrome と比べて選んだ訳ではない（Chrome でも撮れる事を確かめた） |
 | ffmpeg | 動画を作る |
 | Pillow（その場限り） | サムネを作る時だけ `uv run --with pillow` |
 
@@ -66,6 +66,8 @@
 - ⚠️ **`gemini-2.5-flash` は 2026-10-20 に退役する**（`notes.md` の 12:36）。その後はライブでは動かない。キャッシュモードは動く。差し替えは `gemini_client.py` の `MODEL`（差し替えるとキャッシュは取り直し）。
 - ⚠️ **キャッシュの鍵は、問いの中身そのもの。** 指示の文（`sim.py`）・会社の説明（`app.py` の `COMPANIES`）・求職者の文を1字でも変えると、その先のキャッシュは使えなくなる。変えたら `record_demo.py` で埋め直す。表示だけの文言は、指示に入らない所（テンプレートや `ROUTES` の `title`・`note`）で変える。
 - ⚠️ **数字（1人の体験 約0.45円・応答の秒数等）の正本は `notes.md` の 12:31・12:36。** 同じ数字が `pitch.md`・`templates/slides.html`・`narration/5.txt` にもある。変える時は4か所。
+- サーバーを立てるコマンド等は、`pitch.md`（1節・3節）にもわざと重ねて書いてある（本番で手元に置く物なので、他を開かずに済む様に）。コマンドを変える時は `pitch.md` も直す。
+- 動作を確かめたのは Windows 11 だけ。gcloud は `shutil.which` で探すので他の OS でも動く筈 `[Assumption]`。
 - `cache/` は3社×27通りのちょうど240個（Gemini 120・Jev 120）。`cache-backup-*/` と `video/` の中間ファイルは追跡しない（`.gitignore`）。
 
 ## 6. ファイルの地図
