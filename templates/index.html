@@ -14,6 +14,11 @@
   </header>
   <main>
     <form hx-post="/judge" hx-target="#result" hx-indicator="#judging">
+      <div class="presets">
+        {% for c in companies %}
+        <button type="button" class="{{ 'on' if loop.first }}" data-text="{{ c.text }}">{{ c.name }}<small>{{ c.hint }}</small></button>
+        {% endfor %}
+      </div>
       <label>会社（架空）
         <textarea name="company" rows="4">{{ company }}</textarea>
       </label>
@@ -25,5 +30,15 @@
     </form>
     <section id="result"></section>
   </main>
+  <script>
+    // 会社のボタンで、会社の欄を差し替え、前の結果を消す
+    document.querySelectorAll(".presets button").forEach((b) => {
+      b.addEventListener("click", () => {
+        document.querySelector("textarea[name=company]").value = b.dataset.text;
+        document.querySelectorAll(".presets button").forEach((x) => x.classList.toggle("on", x === b));
+        document.getElementById("result").innerHTML = "";
+      });
+    });
+  </script>
 </body>
 </html>

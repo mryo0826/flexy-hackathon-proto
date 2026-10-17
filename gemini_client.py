@@ -71,9 +71,14 @@ def generate_json(prompt, schema, timeout=60):
         },
         method="POST",
     )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as res:
-            data = json.load(res)
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"Gemini {e.code}: {e.read().decode('utf-8', 'replace')}") from e
+    for wait in (2, 4, 8, 16, None):  # 429・503 は間を空けてやり直す
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as res:
+                data = json.load(res)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 503) and wait is not None:
+                time.sleep(wait)
+                continue
+            raise RuntimeError(f"Gemini {e.code}: {e.read().decode('utf-8', 'replace')}") from e
     return json.loads(data["candidates"][0]["content"]["parts"][0]["text"])

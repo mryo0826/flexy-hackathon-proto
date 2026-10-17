@@ -2,6 +2,7 @@
 
 import json
 import os
+import time
 import urllib.error
 import urllib.request
 
@@ -23,8 +24,12 @@ def ask(state, questions, model="jev-latest", timeout=15):
         },
         method="POST",
     )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as res:
-            return json.load(res)["answers"]
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"Jev {e.code}: {e.read().decode('utf-8', 'replace')}") from e
+    for wait in (1, 2, 4, None):  # 429・529 は間を空けてやり直す（jev.md の5節）
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as res:
+                return json.load(res)["answers"]
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 529) and wait is not None:
+                time.sleep(wait)
+                continue
+            raise RuntimeError(f"Jev {e.code}: {e.read().decode('utf-8', 'replace')}") from e

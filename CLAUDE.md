@@ -10,10 +10,10 @@
 |---|---|---|
 | 司令塔 | Claude Code（Opus）と AIDD。方針・裁定の記録・レトロ | `aidd-practice-guide` で開いたセッションと、作業日誌 `../aidd-worklog/` |
 | 実装の場 | このディレクトリ。VS Code 拡張の Claude Code で開く | `flexy-hackathon-proto` |
-| コーディング | Devin CLI（SWE-1.6 Slow）を試す。Claude Pro とは別の枠で動く | このディレクトリ。呼び方（人が端末で使うか、Claude Code から呼ぶか）は当日決める `[To Be Verified]` |
+| コーディング | Devin CLI（SWE-1.6 Slow）を試す。Claude Pro とは別の枠で動く | このディレクトリ。呼び方（非対話の `devin -p`・頼む中身に入れる事・終わった後の確かめ）は `devin-use.md` |
 
 - ⚠️ **このディレクトリでは、AIDD の `CLAUDE.md` は読み込まれない**（`CLAUDE.md` は起動したフォルダとその親からだけ読まれる）。**`review-before-*` 等の AIDD の Skill も使えない** `[Judgment]`。⇒ **規律は本ファイルの1節と6節が自前で持つ。** 🔴 **起動した直後に、リムルの `/context` の Skill の一覧で、AIDD の Skill（`review-before-commit` 等）が無い事を確かめ、結果を `notes.md` に書く**（司令塔の側の確かめ `rp3`）。
-- 🔴 **このディレクトリで動くセッションが読み書きするのは、このディレクトリの中だけ。** 作業日誌（`../aidd-worklog/`）と AIDD の正本（`../aidd-practice-guide/`）は、読みも書きもしない（2026-10-17 の mryo0826 の裁定 `rd1`）。⇒ **要る物は、このディレクトリの `.md` に置く**（`CLAUDE.md`・`handoff-v4.md`・`notes.md`・`jev.md`）。
+- 🔴 **このディレクトリで動くセッションが読み書きするのは、このディレクトリの中だけ。** 作業日誌（`../aidd-worklog/`）と AIDD の正本（`../aidd-practice-guide/`）は、読みも書きもしない（2026-10-17 の mryo0826 の裁定 `rd1`）。⇒ **要る物は、このディレクトリの `.md` に置く**（`CLAUDE.md`・`handoff-v4.md`・`notes.md`・`jev.md`・`devin-use.md`）。
 - **当日の判断と気づきは `notes.md` に書く**（時刻・何を決めたか・誰が決めたか）。**作業日誌への写しは、司令塔のセッションがする。**
 
 ## 1. 対話の規約

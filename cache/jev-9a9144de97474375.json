@@ -1,0 +1,74 @@
+{
+ "overtime_heavy": {
+  "type": "noul",
+  "noul": 0.05
+ },
+ "culture": {
+  "type": "choice",
+  "choice": "formal",
+  "confidence": 0.76,
+  "probabilities": {
+   "casual": 0.13,
+   "formal": 0.82,
+   "flat": 0.05,
+   "speed": 0.0
+  }
+ },
+ "growth": {
+  "type": "score",
+  "score": 0.33,
+  "confidence": 0.72,
+  "legend": {
+   "0": "とても低い",
+   "1": "低い",
+   "2": "普通",
+   "3": "高い",
+   "4": "とても高い"
+  },
+  "probabilities": {
+   "0": 0.67,
+   "1": 0.33,
+   "2": 0.0,
+   "3": 0.0,
+   "4": 0.0
+  }
+ },
+ "workstyle_fit": {
+  "type": "score",
+  "score": 2.19,
+  "confidence": 0.31,
+  "legend": {
+   "0": "全く合わない",
+   "1": "あまり合わない",
+   "2": "どちらとも言えない",
+   "3": "かなり合う",
+   "4": "とても合う"
+  },
+  "probabilities": {
+   "0": 0.0,
+   "1": 0.27,
+   "2": 0.28,
+   "3": 0.44,
+   "4": 0.01
+  }
+ },
+ "early_leave_risk": {
+  "type": "score",
+  "score": 2.83,
+  "confidence": 0.76,
+  "legend": {
+   "0": "とても低い",
+   "1": "低い",
+   "2": "普通",
+   "3": "高い",
+   "4": "とても高い"
+  },
+  "probabilities": {
+   "0": 0.01,
+   "1": 0.04,
+   "2": 0.12,
+   "3": 0.77,
+   "4": 0.06
+  }
+ }
+}

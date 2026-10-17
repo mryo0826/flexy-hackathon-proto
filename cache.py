@@ -6,6 +6,8 @@
 SIM_MODE（環境変数）:
 - auto（既定）: API を呼ぶ。失敗したらキャッシュで答える。
 - cache: API を呼ばず、キャッシュだけで答える（ネットが無い時）。
+- fill: キャッシュにあればそれで答え、無い時だけ API を呼ぶ（record_demo.py が木を埋める時）。
+  Jev の答えは呼ぶ度に僅かに揺れ、揺れると後の鍵が全て変わるので、記録は既にある物を辿る。
 保存は API が答えた時だけで、既にある鍵は上書きしない（ゲート g2 に当たる上書きを起こさない）。
 """
 
@@ -18,6 +20,9 @@ DIR = Path(__file__).parent / "cache"
 
 # 直近の応答の出どころ（"live" / "cache"）。デモは1人で使うので、1つで足りる
 last = {"source": "live"}
+
+# このプロセスで辿った鍵のファイル名（record_demo.py が辿らなかった物を見分ける）
+used = set()
 
 
 def mode():
@@ -39,7 +44,8 @@ def _read(path):
 def call(kind, payload, fn):
     """payload を鍵にして fn() の結果を返す。"""
     path = _path(kind, payload)
-    if mode() == "cache":
+    used.add(path.name)
+    if mode() == "cache" or (mode() == "fill" and path.exists()):
         return _read(path)
     try:
         value = fn()
