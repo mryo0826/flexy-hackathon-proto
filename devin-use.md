@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |---|---|
-| 場所 | `C:\Users\mryo8\AppData\Local\devin\cli\bin\devin.exe`（PATH にある） |
+| 場所 | `%LOCALAPPDATA%\devin\cli\bin\devin.exe`（PATH にある） |
 | 版 | `devin 3000.10.31` |
 | ログイン | 済み（`devin auth status` で「Logged in」・Plan は Free） |
 | Telemetry | disabled (zero-data-retention) |
